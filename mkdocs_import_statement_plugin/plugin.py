@@ -159,9 +159,11 @@ class ImportPlugin(BasePlugin):
             option = None
             leftParen = line.find("{")
             if leftParen > 0:
-                rightParen = line.find("}")
-                if leftParen < rightParen:
-                    option = line.substring(leftParen + 1, rightParen)
+                # Check the pattern is not "{:"
+                if line[leftParen + 1] != ":":
+                    rightParen = line.find("}")
+                    if leftParen < rightParen:
+                        option = line.substring(leftParen + 1, rightParen)
 
             # Current line is @import statement.
             block = self.process_import_line(importMatch.group(3), option)
